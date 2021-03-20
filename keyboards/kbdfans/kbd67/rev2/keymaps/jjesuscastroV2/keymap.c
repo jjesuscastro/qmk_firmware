@@ -18,13 +18,21 @@
 // Defines the keycodes used by our macros in process_record_user
 #define _QWERTY 0
 #define _FN1 1
-#define CLSPD 500
+
+struct RGB_MODE{
+  uint8_t rgbMode;
+  uint16_t rgbHue;
+  uint8_t rgbSat;
+  uint8_t rgbVal;
+  uint8_t rgbSpeed;
+};
+
+typedef struct RGB_MODE RGBMode;
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   FN1,
-  CSPDD,
-  CSPDI,
+  SVCAP,
   SNIP
 };
 
@@ -65,29 +73,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_FN1] = LAYOUT_65_ansi(
   KC_GRV, KC_F1,   KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,   KC_F9,  KC_F10,     KC_F11,  KC_F12, _______,   RESET, \
  _______,_______,_______,_______,_______,_______,_______,_______,_______, _______, _______,    _______, _______, _______,    SNIP, \
- _______,  CSPDD,  CSPDI,_______,_______,_______,_______,_______,_______, _______,    _______, _______,          _______, _______, \
+ _______,_______,_______,_______,_______,_______,_______,_______,_______, _______,    _______, _______,          _______, _______, \
  _______, RGB_TOG, RGB_RMOD, RGB_MOD, RGB_HUD, RGB_HUI, RGB_SAD, RGB_SAI, RGB_VAD, RGB_VAI,  _______,     _______,KC_VOLU,KC_MUTE, \
  _______, _______,  _______,                       _______,                        _______,_______,KC_MPLY,KC_MPRV,KC_VOLD, KC_MNXT)
 };
 
-static uint32_t cpspd = CLSPD;
+static RGBMode capsOffRGB;
+static RGBMode capsOnRGB;
+
+RGBMode GetRGBMode(uint8_t rgbMode, uint16_t rgbHue, uint8_t rgbSat, uint8_t rgbVal, uint8_t rgbSpeed)
+{
+  RGBMode current;
+
+  current.rgbMode = rgbMode;
+  current.rgbHue = rgbHue;
+  current.rgbSat = rgbSat;
+  current.rgbVal = rgbVal;
+  current.rgbSpeed = rgbSpeed;
+
+  return current;
+}
+
+void SetRGBMode(RGBMode newMode)
+{
+  rgblight_mode(newMode.rgbMode);
+  rgblight_sethsv(newMode.rgbHue, newMode.rgbSat, newMode.rgbVal);
+  rgblight_set_speed(newMode.rgbSpeed);
+}
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case CSPDD:
-      if (record->event.pressed) {
-        cpspd -= 100;
-        if (cpspd < 100)
-          cpspd = 100;
-      }
-      return false;
-      break;
-    case CSPDI:
-      if (record->event.pressed) {
-        cpspd += 100;
-      }
-      return false;
-      break;
     case SNIP:
       if (record->event.pressed) {
         SEND_STRING(SS_DOWN(X_LGUI) SS_DOWN(X_LSHIFT) SS_TAP(X_S) SS_UP(X_LGUI) SS_UP(X_LSHIFT));
@@ -98,30 +114,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-// NOTE: BLINKING CAPS LOCK
-static uint32_t key_timer = 0;
-static bool caps_on = false;
-static bool rgblight_on;
+static bool capsOnSaved = false;
 
+// NOTE: USER SET CAPS LOCK RGB
 bool led_update_user(led_t led_state) {
     static uint8_t caps_state = 0;
     if (caps_state != led_state.caps_lock) {
       caps_state = led_state.caps_lock;
 
-      if(!caps_on)
-        rgblight_on = rgblight_is_enabled();
-      else
-        rgblight_on ? rgblight_enable() : rgblight_disable();
-
-      caps_on = caps_state ? true : false;
+      if(caps_state && !capsOnSaved)
+      {
+        //if caps turned on
+        capsOffRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
+        SetRGBMode(capsOnRGB);
+        capsOnSaved = true;
+      }
+      else if(!caps_state && capsOnSaved)
+      {
+        //if caps turned off
+        capsOnRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
+        SetRGBMode(capsOffRGB);
+        capsOnSaved = false;
+      }
     }
 
     return true;
-}
-
-void matrix_scan_user(void) { 
-    if (caps_on && timer_elapsed32(key_timer) > cpspd) { 
-        key_timer = timer_read32();  // resets timer
-        rgblight_toggle();
-    }
 }
