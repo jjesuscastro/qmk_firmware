@@ -32,7 +32,6 @@ typedef struct RGB_MODE RGBMode;
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   FN1,
-  SVCAP,
   SNIP
 };
 
@@ -114,7 +113,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-static bool capsOnSaved = false;
+static bool capsDefined = false;
+static bool capsSaved = false;
 
 // NOTE: USER SET CAPS LOCK RGB
 bool led_update_user(led_t led_state) {
@@ -122,19 +122,25 @@ bool led_update_user(led_t led_state) {
     if (caps_state != led_state.caps_lock) {
       caps_state = led_state.caps_lock;
 
-      if(caps_state && !capsOnSaved)
+      if(!capsDefined)
+      {
+        capsOnRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
+        capsDefined = true;
+      }
+
+      if(caps_state && !capsSaved)
       {
         //if caps turned on
         capsOffRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
         SetRGBMode(capsOnRGB);
-        capsOnSaved = true;
+        capsSaved = true;
       }
-      else if(!caps_state && capsOnSaved)
+      else if(!caps_state && capsSaved)
       {
         //if caps turned off
         capsOnRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
         SetRGBMode(capsOffRGB);
-        capsOnSaved = false;
+        capsSaved = false;
       }
     }
 
