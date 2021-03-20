@@ -20,6 +20,7 @@
 #define _FN1 1
 
 struct RGB_MODE{
+  bool rgbEnabled;
   uint8_t rgbMode;
   uint16_t rgbHue;
   uint8_t rgbSat;
@@ -80,10 +81,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 static RGBMode capsOffRGB;
 static RGBMode capsOnRGB;
 
-RGBMode GetRGBMode(uint8_t rgbMode, uint16_t rgbHue, uint8_t rgbSat, uint8_t rgbVal, uint8_t rgbSpeed)
+RGBMode GetRGBMode(bool rgbEnabled, uint8_t rgbMode, uint16_t rgbHue, uint8_t rgbSat, uint8_t rgbVal, uint8_t rgbSpeed)
 {
   RGBMode current;
 
+  current.rgbEnabled = rgbEnabled;
   current.rgbMode = rgbMode;
   current.rgbHue = rgbHue;
   current.rgbSat = rgbSat;
@@ -95,6 +97,7 @@ RGBMode GetRGBMode(uint8_t rgbMode, uint16_t rgbHue, uint8_t rgbSat, uint8_t rgb
 
 void SetRGBMode(RGBMode newMode)
 {
+  newMode.rgbEnabled ? rgblight_enable() : rgblight_disable();
   rgblight_mode(newMode.rgbMode);
   rgblight_sethsv(newMode.rgbHue, newMode.rgbSat, newMode.rgbVal);
   rgblight_set_speed(newMode.rgbSpeed);
@@ -124,21 +127,21 @@ bool led_update_user(led_t led_state) {
 
       if(!capsDefined)
       {
-        capsOnRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
+        capsOnRGB = GetRGBMode(rgblight_is_enabled(), rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
         capsDefined = true;
       }
 
       if(caps_state && !capsSaved)
       {
         //if caps turned on
-        capsOffRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
+        capsOffRGB = GetRGBMode(rgblight_is_enabled(), rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
         SetRGBMode(capsOnRGB);
         capsSaved = true;
       }
       else if(!caps_state && capsSaved)
       {
         //if caps turned off
-        capsOnRGB = GetRGBMode(rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
+        capsOnRGB = GetRGBMode(rgblight_is_enabled(), rgblight_get_mode(), rgblight_get_hue(), rgblight_get_sat(), rgblight_get_val(), rgblight_get_speed());
         SetRGBMode(capsOffRGB);
         capsSaved = false;
       }
