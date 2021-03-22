@@ -22,16 +22,16 @@
 
 enum custom_keycodes {
   #ifdef VIA_ENABLE
-  CSPDD = SAFE_RANGE,
+  CSPDD = USER00,
   #else
-  CSPDD,
+  CSPDD = SAFE_RANGE,
   #endif
   CSPDI,
   SNIP,
   #ifdef VIA_ENABLE
-  QWERTY
-  #else
   QWERTY = SAFE_RANGE
+  #else
+  QWERTY
   #endif
 };
 
