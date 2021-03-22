@@ -21,11 +21,18 @@
 #define CLSPD 500
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  FN1,
+  #ifdef VIA_ENABLE
+  CSPDD = SAFE_RANGE,
+  #else
   CSPDD,
+  #endif
   CSPDI,
-  SNIP
+  SNIP,
+  #ifdef VIA_ENABLE
+  QWERTY
+  #else
+  QWERTY = SAFE_RANGE
+  #endif
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {

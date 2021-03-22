@@ -30,10 +30,17 @@ struct RGB_MODE{
 
 typedef struct RGB_MODE RGBMode;
 
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  FN1,
-  SNIP
+enum customKeycodes {
+  #ifdef VIA_ENABLE
+  SNIP = USER00,
+  #else
+  SNIP = SAFE_RANGE,
+  #endif
+  #ifdef VIA_ENABLE
+  QWERTY = SAFE_RANGE
+  #else
+  QWERTY
+  #endif
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {

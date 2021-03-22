@@ -1,6 +1,6 @@
 # jjesuscastro's keymap for kbd67 rev2
 
-This is my personal  keymap for kbd67 rev2. With it as a custom effect for Caps Lock.
+This is my personal  keymap for kbd67 rev2. With it is a custom effect for Caps Lock.
 
 
 ## Keymap
@@ -12,5 +12,5 @@ This is my personal  keymap for kbd67 rev2. With it as a custom effect for Caps 
 <p>* Custom Keycode
 
 ## Caps Lock
-<p>Enabling caps lock will make the rbg underflow blink on a fixed interval. Pressing 'CAPS Speed -' or 'CAPS Speed +', FN + A or FN + S respectively, will change the interval between blinks.
-<p>The RGB Effect that will blink is not a static color. rgblight_toggle() will be called repeatedly hence keeping the currently used RGB Effect.
+<p>Caps Lock ON and OFF have separate RGB underglow effects.
+<p>To set the RGB underglow effect that will indicate if Caps Lock is ON, just simply turn on Caps Lock and change your RGB underglow as normal. Turning off your Caps Lock after changing should revert your RGB underglow to what it was before prior to turning on Caps Lock.

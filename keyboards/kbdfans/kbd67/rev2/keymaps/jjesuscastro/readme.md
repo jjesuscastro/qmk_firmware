@@ -1,6 +1,6 @@
 # jjesuscastro's keymap for kbd67 rev2
 
-This is my personal  keymap for kbd67 rev2. With it as a custom effect for Caps Lock.
+This is my personal  keymap for kbd67 rev2. With it is a custom effect for Caps Lock.
 
 
 ## Keymap
