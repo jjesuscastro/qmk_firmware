@@ -29,8 +29,6 @@ And adding customKeycodes in the via.json script (look for the original file in 
 
 *The definition of the custom keymaps in the via.json should be in the same order in the custom_keycodes enum.*
 
-Import the via.json file into VIA after the keyboard has been detected.
-
-<p>If done correctly custom keymaps should be visible in VIA under a new *CUSTOM* tab.
+<p>Import the via.json file into VIA after the keyboard has been detected. If done correctly custom keymaps should be visible in VIA under a new *CUSTOM* tab.
 
 ![VIA](https://github.com/jjesuscastro/qmk_firmware/blob/0ce992994d0d88666f05614f377980148ef7edab/keyboards/kbdfans/kbd67/rev2/keymaps/jjesuscastro/via.png)
