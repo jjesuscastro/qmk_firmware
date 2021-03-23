@@ -19,16 +19,16 @@ This is my personal  keymap for kbd67 rev2. With it is a custom effect for Caps 
 <p>Custom keycodes created to adjust Caps Lock Interval Speed remappable through VIA.
 <p>Achieved by assigning USER00 to a custom keycode in keymap.c
 
-![keymap](https://github.com/jjesuscastro/qmk_firmware/blob/master/keyboards/kbdfans/kbd67/rev2/keymaps/jjesuscastro/keycode.png?raw=true)
+![keymap.c](https://user-images.githubusercontent.com/32050665/112081381-87017980-8bbe-11eb-9220-786dd16d78f6.png)
 
 *If the keymap is VIA enabled, assign USER00 to the first custom keycode, if not, assign SAFE_RANGE.*
 
 And adding customKeycodes in the via.json script (look for the original file in https://github.com/the-via/keyboards/tree/master/src)
 
-![via.json](https://github.com/jjesuscastro/qmk_firmware/blob/f766563b6e33ea679026c99cc6db058fc766203b/keyboards/kbdfans/kbd67/rev2/keymaps/jjesuscastro/via.png)
+![via.json](https://user-images.githubusercontent.com/32050665/112081441-a0a2c100-8bbe-11eb-9715-bede894d298f.png)
 
 *The definition of the custom keymaps in the via.json should be in the same order in the custom_keycodes enum.*
 
 <p>Import the via.json file into VIA after the keyboard has been detected. If done correctly custom keymaps should be visible in VIA under a new *CUSTOM* tab.
 
-![VIA](https://github.com/jjesuscastro/qmk_firmware/blob/0ce992994d0d88666f05614f377980148ef7edab/keyboards/kbdfans/kbd67/rev2/keymaps/jjesuscastro/via.png)
+![VIA](https://user-images.githubusercontent.com/32050665/112081404-91237800-8bbe-11eb-8695-5b9c1a871c5f.png)
