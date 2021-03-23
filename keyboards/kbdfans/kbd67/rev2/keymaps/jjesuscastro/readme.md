@@ -29,6 +29,6 @@ And adding customKeycodes in the via.json script (look for the original file in 
 
 *The definition of the custom keymaps in the via.json should be in the same order in the custom_keycodes enum.*
 
-<p>Import the via.json file into VIA after the keyboard has been detected. If done correctly custom keymaps should be visible in VIA under a new *CUSTOM* tab.
+<p>Import the via.json file into VIA after the keyboard has been detected. If done correctly custom keymaps should be visible in VIA under a new CUSTOM tab.
 
 ![VIA](https://user-images.githubusercontent.com/32050665/112081404-91237800-8bbe-11eb-8695-5b9c1a871c5f.png)
