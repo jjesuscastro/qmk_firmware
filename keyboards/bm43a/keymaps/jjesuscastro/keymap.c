@@ -28,13 +28,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [1] = LAYOUT(
         KC_GRAVE,   KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_DELETE,
-        _______,   KC_MINS, KC_EQL,  _______,  _______, _______, KC_LBRACKET, KC_RBRACKET, KC_SCOLON, KC_QUOTE, SNIP,
+        SNIP,   KC_MINS, KC_EQL,  _______,  _______, _______, KC_LBRACKET, KC_RBRACKET, KC_SCOLON, KC_QUOTE, KC_BSLS,
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, KC_DOT, _______,
         _______, _______, _______, _______,                MO(2),             _______, KC_HOME, _______, KC_END
     ),
     [2] = LAYOUT(
         KC_F1,   KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
-        _______,   RGB_TOG, RGB_MOD,  RGB_HUI,  RGB_HUD, _______, KC_LBRACKET, KC_RBRACKET, KC_SCOLON, KC_QUOTE, _______,
+        _______,   RGB_TOG, RGB_MOD,  RGB_HUI,  RGB_HUD, _______, _______, _______, _______, _______, _______,
         _______,          RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, _______, _______, KC_VOLU, KC_MUTE,
         RESET, _______, _______, _______,                _______,             _______, KC_MPRV, KC_VOLD, KC_MNXT
     ),
@@ -52,4 +52,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
-
